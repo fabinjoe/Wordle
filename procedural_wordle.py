@@ -55,13 +55,12 @@ def findWordConfiguration( mystery_word, check_word ):
                 
     return tuple(color)
 
-def obtainConfigurationProbability( word_set, my_word, config_map, configuration ):
+# def obtainConfigurationProbability( word_set, my_word, config_map, configuration ):
     count = 0
     if configuration in config_map[my_word]:
         count = float(len(word_set.intersection( config_map[my_word][configuration] )))
     return count / len(word_set)
     
-
 def expectedBitsInWord( word_set, my_word, config_map ):
 
     expected_bits = 0.0
