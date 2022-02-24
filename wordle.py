@@ -149,9 +149,9 @@ class Wordle():
         self.steps = 0
         self.mystery_word = "UNSOLVED"
 
-        word_list = self.load_wordlist(path_to_word_list)
-        self.word_set = WordSet(word_list)
-        self.config_map = ConfigMap(path_to_config, word_list)
+        self.word_list = self.load_wordlist(path_to_word_list)
+        self.word_set = WordSet(self.word_list)
+        self.config_map = ConfigMap(path_to_config, self.word_list)
 
     def __str__(self) -> str:
         string = ""
@@ -231,6 +231,12 @@ class Wordle():
             return self.mystery_word
         return "UNSOLVED"
 
+    def reset( self ) -> None:
+        self.solved = False
+        self.steps = 0
+        self.mystery_word = "UNSOLVED"
+
+        self.word_set = WordSet(self.word_list)
 
 class WordleHard(Wordle):
     def __init__(self, path_to_config, path_to_word_list) -> None:
@@ -306,7 +312,6 @@ class WordleHard(Wordle):
             word = word[0:index] + "_" + word[index+1:]
         
         return True
-
 
 class WordleMulti(Wordle):
     def __init__(self, path_to_config, path_to_word_list, no_of_games) -> None:
@@ -416,39 +421,32 @@ class WordleMulti(Wordle):
             self.complete = True
 
         return next_word
-    
 
-def testAlgorithm(path_to_config, word_list):
+def testAlgorithm(path_to_config, path_to_word_list):
     avg_steps = 0.0
     failures = 0
     failure_list = []
     count = 0
 
-    config_map = generateConfigurationMap(path_to_config, word_list)
+
+    wordle_puzzle = Wordle(path_to_config, path_to_word_list)
+    word_list = wordle_puzzle.word_list
 
     start = time.time()
     print("Beginning Wordle Testing...")
     for mystery_word in word_list:
-        count += 1
+        wordle_puzzle.solve()
 
-        # Solve for the mystery word
-        word_set = set(word_list)
-        steps = 0
-        while True:
-            steps += 1
-            next_word = findBestWord(word_set, config_map) 
-            # print(next_word)
-            configuration = findWordConfiguration( mystery_word, next_word )
-            if configuration == (1,1,1,1,1):
-                break
-            word_set = reduceWordSet( word_set, next_word, config_map, configuration )
-        
-        if steps > 6:
+        if wordle_puzzle.steps > 6:
             failures += 1
             failure_list.append(mystery_word)
-        avg_steps = ((avg_steps * (count-1)) + steps)/count
+        
+        avg_steps = ((avg_steps * (count-1)) + wordle_puzzle.steps)/count
 
         print(f"Completed Word: {mystery_word}. Failures: {failures}. Average Steps: {avg_steps}", end="\r")
+
+        wordle_puzzle.reset()
+
     print("\n")
     test_result = {}
     test_result["test_size"] = count
@@ -468,6 +466,9 @@ if __name__ == "__main__":
     path_to_config = "modData.pkl"
     path_to_word_list = "wordle_words.txt"
     
-    wordle_puzzle = WordleMulti(path_to_config, path_to_word_list, 2)
+    # testAlgorithm(path_to_config, path_to_word_list)
+
+    no_of_games = 4
+    wordle_puzzle = WordleMulti(path_to_config, path_to_word_list, no_of_games)
     wordle_puzzle.solve()
     print(wordle_puzzle)
