@@ -1,4 +1,4 @@
-# Wordle
+# Wordle Puzzle Solver
 A program that uses probability information theory to solve the Wordle Puzzle. This program also has the ability to solve variations of the Wordle Puzzle. 
 The first variation being the Hard Mode of the Wordle Puzzle, wherein subsequent words MUST use the information recieved from previous attempts. The second is 
 Multiple Simultaneous Wordle Puzzles. In this variation we have to find more than one word, but an attempted word will be used for all the hidden words. 
