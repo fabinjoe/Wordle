@@ -19,7 +19,7 @@ WORDLE_PATH = "https://www.nytimes.com/games/wordle/index.html"
 WORDLE_START_COORDINATES = (450, 150)
 WORDLE_X_DIFF = 84
 WORDLE_Y_DIFF = 84
-WORDLE_WAIT_TIME = 1.4
+WORDLE_WAIT_TIME = 2
 
 DORDLE_PATH = "https://zaratustra.itch.io/dordle"
 DORDLE_START_COORDINATES = (295, 115)
@@ -37,8 +37,7 @@ class UI(ABC):
     def solve(self):
         solution_generator = self.wordle_puzzle.solutionGenerator()
         next_word = next(solution_generator)
-
-        while next_word != "COMPLETED":   
+        while next_word != "COMPLETED":
             self.enterWordEntry(next_word)
             config = self.obtainConfiguration()
             next_word = solution_generator.send(config)

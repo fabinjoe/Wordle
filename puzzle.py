@@ -27,6 +27,7 @@ class WordlePuzzle():
         '''Begins a feedback loop, wherein the program suggests the next best word, and requests
         the user to enter the obtained configuration output.'''
         self.mystery_word = self.findNextWord() # obtain the next Word
+        # self.mystery_word = "crane"
         self.steps = 1
         
         while True:
@@ -69,7 +70,10 @@ class WordlePuzzle():
             bits = self.word_set.expectedBitsInWord(self.config_map, word)
             if bits > highest_bits:
                 highest_bits = bits
-                next_word = word    
+                next_word = word  
+            elif bits>0 and bits == highest_bits and self.word_set.hasWord(word):  
+                highest_bits = bits
+                next_word = word
 
         if highest_bits == 0:
             if self.word_set.size() == 0:

@@ -84,8 +84,7 @@ class Configuration():
         if self.get_config() == (GREEN,GREEN,GREEN,GREEN,GREEN):
             return True
         return False
-
-    
+ 
 class ConfigMap():
     '''
     Represents a lookup-table that related words to other words based on the 
@@ -203,6 +202,8 @@ class WordSet():
     #     highest_bit = 0.0
     #     for config in config_map.word( my_word ):
     #         pass
+    def hasWord(self, word: str) -> bool:
+        return word in self.word_set
 
 def load_wordlist(path_to_file: str) -> list[str]:
     '''Loads the list of words to the program.'''
