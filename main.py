@@ -1,7 +1,8 @@
 
 from elements import load_wordlist, ConfigMap
 from puzzle import WordlePuzzle, WordleHardPuzzle, WordleMultiPuzzle
-from UI import TerminalUI, WordleBrowserUI, DordleBrowserUI
+from UI import TerminalUI
+from UI_web import WordleBrowserUI, DordleBrowserUI
 
 # Wordle Browser Constants
 CONFIGURATION_MAP_PATH = "wordle_data.pkl"
@@ -16,7 +17,7 @@ if __name__ == "__main__":
     configuration_map = ConfigMap(CONFIGURATION_MAP_PATH, possible_words, accepted_words)
 
     wordle_puzzle = WordlePuzzle(configuration_map, possible_words)
-    ui_element = WordleBrowserUI(wordle_puzzle)
+    ui_element = TerminalUI(wordle_puzzle)
     
     ui_element.solve()
 
